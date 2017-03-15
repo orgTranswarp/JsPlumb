@@ -10,6 +10,7 @@
 
 </head>
 <body>
+  <!--模型 container-->
 	<div id="divContentLeftMenu">
 		<div class="sidebar-menu" id="divSidebar">
       <a href="#plantmodel" onclick="Resize()" class="nav-header menu-first collapsed" data-toggle="collapse">工厂模型</a>
@@ -34,9 +35,10 @@
       </ul>
     </div> 
 	</div>
+
+  <!--中间区域 container-->
   <div id="divCenter"></div>
   <script type="text/javascript">
-
 //基本连接线样式
 var connectorPaintStyle = {
   strokeStyle: "#1e8151",
@@ -75,9 +77,7 @@ var hollowCircle = {
   connectorOverlays: [["Arrow", { width: 10, length: 10, location: 1 }]]
 };
 
-
-////////////////////////////
-
+//页面初始化后 注册事件
 $(function(){
         //左边区域的draggable事件
         $("#divContentLeftMenu .node").draggable({
@@ -90,6 +90,8 @@ $(function(){
           scope: "plant",
           drop: function (event, ui) {
             // 创建工厂模型到拖拽区
+            console.log( event, ui );
+            
             CreateModel(ui, $(this));
           }
         });
@@ -141,6 +143,7 @@ $(function(){
     });
     return id;
   };
+
     </script>
 </body>
 </html>
