@@ -12,30 +12,13 @@ body {
     padding: 0;
 }
 
-.jtk-bootstrap {
-  min-height:100vh;
-  display:flex;
-  flex-direction: column;  
-}
-
-.jtk-bootstrap .jtk-page-container {
-    display:flex;
-    width:100vw;
-    justify-content: center;
-    flex:1;
-  }
-
-  .jtk-bootstrap .jtk-container {
-    width: 60%;
-    max-width:800px;
-  }
-
-  .jtk-bootstrap-wide .jtk-container {
-      width: 80%;
-      max-width:1187px;
-  }
-
-.jtk-demo-main {    
+.jtk-demo-main {
+    background-color: transparent;
+    font-family: Arial,sans-serif;
+    margin-left: auto;
+    margin-right: auto;
+    width: 90%;
+    max-width:1500px;
     position: relative;
     margin-top:98px;
 }
@@ -52,12 +35,12 @@ body {
     list-style-type: disc !important;
 }
 
-.jtk-demo-canvas {    
-    height:550px;
+.jtk-demo-canvas {
+    margin-left: 160px;
+    height:750px;
     max-height:700px;
     border:1px solid #CCC;
     background-color:white;
-    display: flex;
 }
 
 .canvas-wide {
@@ -166,17 +149,17 @@ li {
 /* --- jsPlumb setup ---------------------------------------------------------------------------------- */
 /* ---------------------------------------------------------------------------------------------------- */
 
-.jtk-connector {
+._jsPlumb_connector {
     z-index:9;
 }
 
-.jtk-endpoint {
+._jsPlumb_endpoint {
     z-index:12;
     opacity:0.8;
     cursor:pointer;
 }
 
-.jtk-overlay {
+._jsPlumb_overlay {
     background-color: white;
     color: #434343;
     font-weight: 400;
@@ -185,7 +168,7 @@ li {
 
 }
 
-.jtk-overlay.jtk-hover {
+._jsPlumb_overlay._jsPlumb_hover {
     color: #434343;
 }
 
@@ -252,9 +235,8 @@ path {
     padding:4px;
 }
 
-/*
 .navbar-top {
-    background-color: #3c565d;
+    background-color: #58775d;
     border:none;
     font-size: 14px;
     font-weight: 700;
@@ -278,7 +260,7 @@ path {
     color: #cdcc73;
     text-decoration: none;
 }
-*/
+
 
 
 
