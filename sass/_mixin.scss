@@ -1,0 +1,106 @@
+// =============================================================================
+// Debug
+// =============================================================================
+@if($debug){
+  div, table, tr, td {
+    border: 1px dotted red;
+  }
+}
+
+// =============================================================================
+// Buttons
+// =============================================================================
+
+
+@mixin button ($style, $text-color, $background-color, $text-color-hover:$text-color, $text-size: inherit, $padding: 7px 18px, $margin: 0, $radius: 0) {
+
+  @if type_of($style) == string {
+    @include buttonstyle($style, $text-color, $background-color, $text-color-hover, $text-size, $padding, $margin, $radius);
+  }
+
+}
+
+// Selector Style Button
+//************************************************************************//
+@mixin buttonstyle($type, $t-color, $b-color, $t-color-hover, $t-size, $pad, $mar, $rad) {
+
+  // Colored flat button
+  @if $type == simple {
+    @include simple( $t-color, $b-color, $t-color-hover, $t-size, $pad, $mar, $rad);
+  }
+
+}
+
+// Simple Button
+//************************************************************************//
+@mixin simple( $text-color, $background-color, $text-color-hover, $text-size, $padding, $margin, $radius) {
+
+  border-radius: $radius;
+  color: $text-color;
+  display: inline-block;
+  font-size: $text-size;
+  font-weight: 400;
+  margin: $margin;
+  padding: $padding;
+  text-decoration: none;
+
+  @if ($background-color) {
+    background-color: $background-color;
+  } @else {
+    background-color: #FFF;
+  }
+
+  &:hover:not(:disabled),
+  &:active:not(:disabled),
+  &:focus:not(:disabled) {
+    color: $text-color-hover;
+    cursor: pointer;
+
+    @if ($background-color) {
+      $hover: adjust_color($background-color, $saturation:  9%,  $lightness: -14%);
+      background-color: $hover;
+    } @else {
+      background-color: #FFF;
+    }
+
+  }
+}
+
+// =============================================================================
+// CSS3 properties
+// =============================================================================
+
+// Box sizing
+@mixin box-sizing ($box) {
+  //  content-box | border-box | inherit
+  @include prefixer(box-sizing, $box, webkit moz spec);
+}
+
+// Media query
+@mixin respond-to($media) {
+  @if $media == phone {
+    @media only screen and (max-width: $break-phones) { @content; }
+  }
+  @else if $media == tablets {
+    @media only screen and (min-width: $break-phones + 1) and (max-width: $break-tablets - 1) { @content; }
+  }
+  @else if $media == medium-screens {
+    @media only screen and (min-width: $break-tablets) and (max-width: $break-medium - 1) { @content; }
+  }
+  @else if $media == large-screens {
+    @media only screen and (min-width: $break-large) and (max-width: $break-wide - 1) { @content; }
+  }
+  @else if $media == wide-screens {
+    @media only screen and (min-width: $break-wide) { @content; }
+  }
+
+}
+
+// Vertical align
+@mixin vertical-align {
+  position: relative;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

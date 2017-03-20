@@ -12,6 +12,10 @@
     "email": "rock@fuck.com"
   },
   "license": "ISC",
+  "dependencies": {
+    "font-awesome": "^4.7.0",
+    "jsplumbtoolkit": "file:../../jsplumbtoolkit.tgz"
+  },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-less": "^3.3.0"

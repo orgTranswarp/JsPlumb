@@ -1,0 +1,104 @@
+// =============================================================================
+// Global values
+// =============================================================================
+
+@function asset-path($asset){
+  @return "/img/" + $asset
+}
+
+@function font-path($asset){
+  @return "/fonts/" + $asset
+}
+
+// Variable settings for _prefixer.scss
+$prefix-for-webkit:    true !default;
+$prefix-for-mozilla:   true !default;
+$prefix-for-microsoft: true !default;
+$prefix-for-opera:     true !default;
+$prefix-for-spec:      true !default; // required for keyframe mixin
+
+// Media query
+// -----------------------------------------------------------------------------
+$break-phones: 320px;
+$break-tablets: 769px;
+$break-medium: 1024px;
+$break-large: 1620px;
+$break-wide: 1920px;
+
+// Colors
+// -----------------------------------------------------------------------------
+
+$color-white: #FFF;
+
+$color-black: #000;
+$color-black-gray: #434343;
+
+$color-sp-grey:#4d4e50;
+$color-dark-blue :#3c565d !default;
+$color-light-blue:#5877a9 !default;
+
+
+$color-dark-green: #58775d !default;
+$color-earth-green: #696b60 !default;
+$color-dry-earth-green: #8DA3A2 !default;
+
+$color-earth-green: #A7AC90 !default;
+$color-dry-green: #a0b8b7 !default;
+$color-dry-dark-green: #629f8d !default;
+
+$color-light-brown: #cdcc73 !default;
+
+$color-dark-blue: #096070 !default;
+
+$color-sepia: #f4f5ef !default;
+
+$color-blood-red: #C02525 !default;
+
+// dropdown menu colors
+
+$color-dropdown-base: #6dadcc;
+$color-dropdown-hover: adjust_color($color-dropdown-base, $saturation:  9%,  $lightness: -14%);
+$color-dropdown-menu-hover: adjust_color($color-dropdown-base, $saturation:  9%,  $lightness: -10%);
+
+
+// Typography
+// -------------------------------------------------------
+$font-family-sans-serif:  'Lato', sans-serif;
+$font-family-base:        $font-family-sans-serif !default;
+
+// Font size
+$font-size-base:          14px !default;
+$font-size-hyper-mega:    ceil($font-size-base * 4.20) !default; // ~60px
+$font-size-mega:          ceil($font-size-base * 4.00) !default; // ~56px
+$font-size-jumbohigh:     ceil($font-size-base * 2.37) !default; // ~34px
+$font-size-jumbo:         ceil($font-size-base * 2.25) !default; // ~32px
+$font-size-larger:        ceil($font-size-base * 1.75) !default; // ~25px
+$font-size-large:         ceil($font-size-base * 1.55) !default; // ~22px
+$font-size-medium:        ceil($font-size-base * 1.25) !default; // ~18px
+$font-size-normal:        ceil($font-size-base * 1.05) !default; // ~12px
+$font-size-small:         ceil($font-size-base * 0.85) !default; // ~12px
+$font-size-smaller:       ceil($font-size-base * 0.65) !default; // ~10px
+
+//Font weight
+$font-weight-normal: 400;
+$font-weight-semi-bold: 600;
+$font-weight-bold: 700;
+
+// Backgrounds
+// -------------------------------------------------------
+
+$background-header: 'back-header.png' !default;
+$background-green: 'back-green.jpg' !default;
+$background-blue: 'back-blue.jpg' !default;
+$background-dark-green: 'back-dark-green.jpg' !default;
+$background-browser-top-center: 'browser-window-top-center.png' !default;
+
+
+// Tables
+// -------------------------------------------------------
+
+$table-color-border: #CFD0C9;
+$table-color-odd-row: #FBFBFB;
+$table-color-even-row: #E9EBDD;
+$table-border-size: 1px;
+$table-padding: 10px;

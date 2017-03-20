@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script src="jquery-1.9.0.js"></script>
+    <script src="jquery-ui-1.9.2-min.js"></script>
+    <script src="jquery.jsPlumb-1.4.0-all.js"></script>
+
+    <style type="text/css">
+
+        .dragActive { border:2px dotted orange; }
+        .dropHover { border:1px dotted red; }
+        .item {
+            border: 1px solid black; border-radius: 45px;
+            background-color: #eee;
+            width: 200px;
+            height: 200px;
+            position: absolute;
+            text-align: center;
+            line-height: 100px;
+            color: #999; opacity: .6;
+        }
+
+        #state1 {
+            width: 100px;
+            height: 100px;
+            left: 150px;
+            top: 100px;
+        }
+        #state2 {
+            width: 150px;
+            height: 150px;
+            left: 100px;
+            top: 250px;
+        }
+        #state3 {
+            left: 300px;
+            top: 250px;
+        }
+    </style>
+
+    <script>
+        jsPlumb.ready(function() {
+            var color1 = "red";
+            var color2 = "gray";
+
+            var firstInstance = jsPlumb.getInstance();
+            var secondInstance = jsPlumb.getInstance({
+              PaintStyle:{ 
+                strokeWidth:6,
+                stroke:"#567567",
+                outlineStroke:"black",
+                outlineWidth:1
+              },
+              Connector:[ "Bezier", { curviness: 30 } ],
+              Endpoint:[ "Dot", { radius:5 } ],
+              EndpointStyle : { fill: "#567567"  },
+              Anchor : [ 0.5, 0.5, 1, 1 ]
+            });
+
+            firstInstance.importDefaults({
+              Connector : [ "Bezier", { curviness: 150 } ],
+              Anchors : [ "TopCenter", "BottomCenter" ]
+            });
+
+            // firstInstance.connect({
+            //   source:"element1", 
+            //   target:"element2", 
+            //   scope:"someScope" 
+            // });
+            
+            // secondInstance.connect({
+            //   source:"element4", 
+            //   target:"element3", 
+            //   scope:"someScope"   
+            // });
+
+//            document.onselectstart = function () { return false; };
+
+            // setup jsPlumb defaults.
+            jsPlumb.importDefaults({
+                DragOptions : {
+                    cursor: 'pointer', // hover时候鼠标的效果
+                    zIndex: 2000 
+                },
+
+                //点的样式定义   
+                //.0
+                PaintStyle : {
+                    strokeStyle:'#000',     //点静态的边框颜色
+                    // fillStyle:'red'      //点静态的填充颜色
+                },
+
+                //.1 Rectangle
+                EndpointStyle : { width:10, height:10, strokeStyle:'#666' },
+                Endpoint : "Rectangle",
+                //.2 Dot
+                // endpoint:["Dot", { radius:8 }], //点的定义,圆圈大小   ？种类有？
+
+                //点在宿主上站的位置
+                // Anchors : ["TopCenter"],
+
+                connectorStyle:{ //连接线样式
+                    strokeStyle:color1, 
+                    lineWidth:12 
+                }
+            });
+// 如果是全局则可以使用jsPlumb.importDefaults({···})，
+// 也可以在实例化时，重新定义jsPlumb.getInstance({···})，
+
+            var exampleDropOptions = {
+                hoverClass:"dropHover",
+                activeClass:"dragActive"
+            };
+
+            
+
+            // bind to connection/connectionDetached events, and update the list of connections on screen.
+//            jsPlumb.bind("connection", function(info, originalEvent) {
+//                updateConnections(info.connection);
+//            });
+//            jsPlumb.bind("connectionDetached", function(info, originalEvent) {
+//                updateConnections(info.connection, true);
+//            });
+
+
+
+            
+            var exampleEndpoint1 = {
+                paintStyle : {
+                    fillStyle:'red'     //点静态的填充颜色
+                },
+                isSource:true,          //是否能从点上面拉一条线出来
+                scope:"red dot",        //连接点的标识符，只有标识符相同的连接点才能连接
+
+                connectorStyle:{ //连线颜色、粗细
+                    strokeStyle:color1,     //连接数颜色
+                    lineWidth:5             //连接线宽度
+                },
+                connector: ["Bezier", { curviness:63 } ],//设置连线为贝塞尔曲线
+
+                maxConnections:1,
+                isTarget:true,          //是否能被连接
+                dropOptions : exampleDropOptions,       //设置放置相关的css 
+                anchor: [.5, 0, 0, 0, 0, 0 ],
+                // overlays:[
+                //     "Arrow", [ "Label", { label:"foo", location:0.25, id:"myLabel" } ]
+                // ]
+
+            };
+            var exampleEndpoint2 = {
+                endpoint:"Dot",
+                anchor:"BottomLeft",
+                paintStyle:{
+                    fillStyle:color2,
+                    opacity:0.5
+                },
+                isSource:true,
+                scope:'yellow dot',
+                connectorStyle:{ strokeStyle:color2, lineWidth:4 },
+                connector : "Flowchart",
+                isTarget:true,
+                dropOptions : exampleDropOptions,
+                beforeDetach:function(conn) {
+                    return confirm("Detach connection?");
+                },
+                onMaxConnections:function(info) {
+                    console.log("Cannot drop connection " + info.connection.id + " : maxConnections has been reached on Endpoint " + info.endpoint.id);
+                }
+            };
+
+            //指定一个数组作为连接点时，该连接点为动态连接点，连线时会自动选择最近的连接点连接；
+            var anchors = [[1, 0.2, 1, 0], [0.8, 1, 0, 1], [0, 0.8, -1, 0], [0.2, 0, 0, -1] ];
+
+            var maxConnectionsCallback = function(info) {
+                alert("Cannot drop connection " + info.connection.id + " : maxConnections has been reached on Endpoint " + info.endpoint.id);
+            };
+
+            var e1 = jsPlumb.addEndpoint("state2", { anchor:"LeftMiddle" }, exampleEndpoint1);
+            // you can bind for a maxConnections callback using a standard bind call, but you can also supply 'onMaxConnections' in an Endpoint definition - see exampleEndpoint3 above.
+            e1.bind("maxConnections", maxConnectionsCallback);
+
+            firstInstance.draggable("state2");
+
+            jsPlumb.addEndpoint("state1", exampleEndpoint1);
+            jsPlumb.addEndpoint("state3", exampleEndpoint2);
+            jsPlumb.addEndpoint("state1", {anchor:anchors}, exampleEndpoint2);
+
+            $('#state2').draggable({
+                drag: function(e, l) {
+                    jsPlumb.repaintEverything();
+                }
+            });
+
+        //     $('#state2').draggable({
+        // //       containment: "parent",
+        // //       start: function () {
+        // //         startMove();
+        // //       },
+        //       drag: function(event, ui) {
+        // //         MoveSelectDiv(event, ui, id);
+        //         jsPlumb.repaintEverything();
+        //       },
+        //       stop: function () {
+        //         jsPlumb.repaintEverything();
+        //       }
+        //     });
+
+        });
+    </script>
+</head>
+
+<body>
+<div id="state1" class="item">item0</div>
+<div id="state2" class="item">item1</div>
+<div id="state3" class="item">item2</div>
+</body>
+
+
+</html>

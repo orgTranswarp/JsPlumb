@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+    <title>researching</title>
+    <meta charset="utf-8">
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <!--<link href="node_modules/font-awesome/css/font-awesome.min.css" rel="stylesheet">-->
+    <link rel="stylesheet" href="./style/jsplumbtoolkit-defaults.css">
+    <link rel="stylesheet" href="./style/jsplumbtoolkit-demo.css">
+    <link rel="stylesheet" href="./style/app.css">
+    <style type="text/css">
+    #divCenter{
+      border:1px gray solid;
+      height:500px;
+    }
+  </style>
+
+</head>
+<body>
+<script type="jtk" id="tmplNode">
+    <div class="connectivity-node">
+        <h3>${id.substring(0, 5)}</h3>
+        <ul>
+            <r-each in="items">
+                <li>
+                    <span>${entries.join(' ')}</span>
+                    <jtk-source port-id="${index}"/>
+                    <jtk-target port-id="${index}"/>
+                </li>
+            </r-each>
+        </ul>
+    </div>
+</script>
+
+
+<script src="node_modules/jsplumbtoolkit/dist/js/jsplumbtoolkit.js"></script>
+<script>
+    jsPlumb.ready(function() {
+var firstInstance = jsPlumb.getInstance();
+
+firstInstance.importDefaults({
+  Connector : [ "Bezier", { curviness: 150 } ],
+  Anchors : [ "TopCenter", "BottomCenter" ]
+});
+
+firstInstance.connect({
+  source:"element1",
+  target:"element2",
+  scope:"someScope"
+});
+
+var secondInstance = jsPlumb.getInstance({
+  PaintStyle:{
+    strokeWidth:6,
+    stroke:"#567567",
+    outlineStroke:"black",
+    outlineWidth:1
+  },
+  Connector:[ "Bezier", { curviness: 30 } ],
+  Endpoint:[ "Dot", { radius:5 } ],
+  EndpointStyle : { fill: "#567567"  },
+  Anchor : [ 0.5, 0.5, 1, 1 ]
+});
+
+secondInstance.connect({
+  source:"element4",
+  target:"element3",
+  scope:"someScope"
+});
+    });
+</script>
+
+</body>
+</html>
