@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>flowchart demo</title>
 
-
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
@@ -25,15 +24,40 @@
         <div class="jtk-demo-canvas canvas-wide flowchart-demo jtk-surface jtk-surface-nopan" id="canvas">
             <div class="window jtk-node" id="flowchartWindow1">1</div>
             <div class="window jtk-node" id="flowchartWindow2">2</div>
-            <div class="window jtk-node" id="flowchartWindow3">3</div>
-            <div class="window jtk-node" id="flowchartWindow4">4</div>
         </div>
         <!-- /demo -->
     </div>
+    <div id="oldId">
+        如果在使用过程中，元素的id产生了新的变化（多是生成了新的节点，旧的节点被删除了）。则可以：
+    </div>
 
+
+    <script src="./script/libs/jQuery-1.9.1/jquery-1.9.1.js"></script>
+    <script src="./script/libs/jquery-ui-1.11.4.custom/jquery-ui.min.js" ></script>
     <script src="./script/libs/jsplumb.min.js"></script>
+    <script>
+        jsPlumb.ready(function(){
+            var secondInstance = jsPlumb.getInstance();
+            //1. secondInstance.draggable("flowchartWindow1");
 
-    <script src="./script/demo.js"></script>
+            secondInstance.draggable("flowchartWindow1");
+
+            //2.
+            //this one is from jquery UI
+            $('#flowchartWindow2').draggable({
+                drag: function(e, l) {
+                    jsPlumb.repaintEverything();
+                }
+            });
+
+        });
+        /**
+Drag
+如果不使用jsPlumb提供的拖动，则需要使用repaint()来对拖动之后的连线进行重绘。
+而当修改了节点的层级，或者偏移则需要使用revalidate(container)来刷新。
+
+        */
+    </script>
 
 </body>
 </html>

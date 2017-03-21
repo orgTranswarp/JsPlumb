@@ -7,7 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
     <title>flowchart demo</title>
 
-
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
     <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
@@ -30,10 +29,19 @@
         </div>
         <!-- /demo -->
     </div>
+    <div id="oldId">
+        如果在使用过程中，元素的id产生了新的变化（多是生成了新的节点，旧的节点被删除了）。则可以：
+    </div>
 
     <script src="./script/libs/jsplumb.min.js"></script>
 
-    <script src="./script/demo.js"></script>
+    <script>
+        jsPlumb.ready(function(){
+            var firstInstance = jsPlumb.getInstance();
+            // jsPlumb.setId(el,newId);
+            jsPlumb.setIdChanged('oldId','newId')
+        });
+    </script>
 
 </body>
 </html>

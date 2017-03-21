@@ -1,11 +1,19 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-
 <head>
-    <script src="jquery-1.9.0.js"></script>
-    <script src="jquery-ui-1.9.2-min.js"></script>
-    <script src="jquery.jsPlumb-1.4.0-all.js"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no"/>
+    <title>flowchart demo</title>
 
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+    <link href="http://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="./style/main.css">
+
+    <link rel="stylesheet" href="./style/jsplumbtoolkit-defaults.css">
+    <link rel="stylesheet" href="./style/jsplumbtoolkit-demo.css">
     <style type="text/css">
 
         .dragActive { border:2px dotted orange; }
@@ -32,28 +40,70 @@
             height: 150px;
             left: 100px;
             top: 250px;
+            color: red;
         }
         #state3 {
             left: 300px;
             top: 250px;
         }
-
     </style>
+</head>
 
-    <script>
+<body data-demo-id="flowchart">
+<div id="state1" class="item">item0</div>
+<div id="state2" class="item">item1：dragable</div>
+<div id="state3" class="item">item2</div>
+<h3>分为全局默认参数和连线默认参数</h3>
+
+<p>Anchor : "BottomCenter",//端点的定位点的位置声明（锚点）：left，top，bottom等</p><p>
+Anchors : [ null, null ],//多个锚点的位置声明</p><p>
+ConnectionsDetachable   : true,//连接是否可以使用鼠标默认分离</p><p>
+ConnectionOverlays  : [],//附加到每个连接的默认重叠</p><p>
+
+Connector : "Bezier",//要使用的默认连接器的类型：折线，流程等</p><p>
+    //有四种默认类型：Bezier（贝塞尔曲线），Straight（直线），Flowchart（流程图），State machine（状态机）
+Container : null,//设置父级的元素，一个容器</p><p>
+DoNotThrowErrors  : false,//如果请求不存在的Anchor，Endpoint或Connector，是否会抛出</p><p>
+DragOptions : { },//用于配置拖拽元素的参数</p><p>
+DropOptions : { },//用于配置元素的drop行为的参数</p><p>
+Endpoint : "Dot",//端点（锚点）的样式声明（Dot）</p><p>
+Endpoints : [ null, null ],//多个端点的样式声明（Dot）</p><p>
+EndpointOverlays : [ ],//端点的重叠</p><p>
+EndpointStyle : { fill : "#456" },//端点的css样式声明</p><p>
+EndpointStyles : [ null, null ],//同上</p><p>
+EndpointHoverStyle : null,//鼠标经过样式</p><p>
+EndpointHoverStyles : [ null, null ],//同上</p><p>
+HoverPaintStyle : null,//鼠标经过线的样式</p><p>
+LabelStyle : { color : "black" },／／标签的默认样式。</p><p>
+LogEnabled : false,//是否打开jsPlumb的内部日志记录</p><p>
+Overlays : [ ],//重叠
+//装饰连接器的组件，类似箭头之类
+</p><p>
+MaxConnections : 1,//最大连接数</p><p>
+PaintStyle : { lineWidth : 8, stroke : "#456" },//连线样式</p><p>
+ReattachConnections : false,//是否重新连接使用鼠标分离的线</p><p>
+RenderMode : "svg",//默认渲染模式</p><p>
+Scope : "jsPlumb_DefaultScope"//范围，标识</p>  //相同的scope 才可以互相链接上
+
+//Group：包含在某个其他元素中的一组元素，可以折叠，导致与所有组成员的连接被合并到折叠的组容器上。
+
+<script src="./script/libs/jQuery-1.9.1/jquery-1.9.1.js"></script>
+<script src="./script/libs/jquery-ui-1.11.4.custom/jquery-ui.min.js" ></script>
+<script src="./script/libs/jsplumb.min.js"></script>
+<script>
         jsPlumb.ready(function() {
             var color1 = "red";
             var color2 = "gray";
-
+//2
             var firstInstance = jsPlumb.getInstance();
             var secondInstance = jsPlumb.getInstance({
-              PaintStyle:{ 
+              PaintStyle:{
                 strokeWidth:6,
                 stroke:"#567567",
                 outlineStroke:"black",
                 outlineWidth:1
               },
-              Connector:[ "StateMachine" ],
+              Connector:[ "Bezier", { curviness: 30 } ],
               Endpoint:[ "Dot", { radius:5 } ],
               EndpointStyle : { fill: "#567567"  },
               Anchor : [ 0.5, 0.5, 1, 1 ]
@@ -64,28 +114,14 @@
               Anchors : [ "TopCenter", "BottomCenter" ]
             });
 
-            // firstInstance.connect({
-            //   source:"element1", 
-            //   target:"element2", 
-            //   scope:"someScope" 
-            // });
-            
-            // secondInstance.connect({
-            //   source:"element4", 
-            //   target:"element3", 
-            //   scope:"someScope"   
-            // });
-
-//            document.onselectstart = function () { return false; };
-
-            // setup jsPlumb defaults.
+            //1. setup jsPlumb defaults.
             jsPlumb.importDefaults({
                 DragOptions : {
                     cursor: 'pointer', // hover时候鼠标的效果
-                    zIndex: 2000 
+                    zIndex: 2000
                 },
 
-                //点的样式定义   
+                //点的样式定义
                 //.0
                 PaintStyle : {
                     strokeStyle:'#000',     //点静态的边框颜色
@@ -96,23 +132,14 @@
                 EndpointStyle : { width:10, height:10, strokeStyle:'#666' },
                 Endpoint : "Rectangle",
                 //.2 Dot
-                // endpoint:["Dot", { radius:8 }], //点的定义,圆圈大小
-
-                //.3 image
-                //src，必选，指定要使用的图像的URL，
-                //cssClass，附加到Endpoint创建的元素的CSS类
-                //hoverClass，当鼠标悬停在元素或连接的线上时附加到EndPoint创建的元素，
-                endpoint: ['image', {src: 'http://cdn-img.easyicon.net/png/5737/573790.gif'}],
-
-                //.4 Blank：空白
+                // endpoint:["Dot", { radius:8 }], //点的定义,圆圈大小   ？种类有？
 
                 //点在宿主上站的位置
                 // Anchors : ["TopCenter"],
-                //Connectors: '',
 
                 connectorStyle:{ //连接线样式
-                    strokeStyle:color1, 
-                    lineWidth:12 
+                    strokeStyle:color1,
+                    lineWidth:12
                 }
             });
 // 如果是全局则可以使用jsPlumb.importDefaults({···})，
@@ -123,19 +150,8 @@
                 activeClass:"dragActive"
             };
 
-            
-
-            // bind to connection/connectionDetached events, and update the list of connections on screen.
-//            jsPlumb.bind("connection", function(info, originalEvent) {
-//                updateConnections(info.connection);
-//            });
-//            jsPlumb.bind("connectionDetached", function(info, originalEvent) {
-//                updateConnections(info.connection, true);
-//            });
 
 
-
-            
             var exampleEndpoint1 = {
                 paintStyle : {
                     fillStyle:'red'     //点静态的填充颜色
@@ -151,39 +167,13 @@
 
                 maxConnections:1,
                 isTarget:true,          //是否能被连接
-                //如果只想产生一个端点，而不是多个端点，则需要使用uniqueEndpoint:true.
-
                 dropOptions : exampleDropOptions,       //设置放置相关的css 
                 anchor: [.5, 0, 0, 0, 0, 0 ],
+                // overlays:[
+                //     "Arrow", [ "Label", { label:"foo", location:0.25, id:"myLabel" } ]
+                // ]
 
-                //overlays: 1.Arrow; 2.Label; 3.PlainArrow; 4.Diamond; 5.Custom
-                //所有叠加层都支持：
-//getLocation-返回当前位置            //????
-//setLocation-设置当前位置
-
-//获取overlay的：
-//当然还有获取叠加层的方法：getOverlay(id)这里的id与元素中的id不同，只是组件在jsPlumb中的唯一标识而已，
-//在控制台打印之后，能看到内部提供了很多方法,另外注意原型链中的方法。
-                overlays:[
-                    ["Arrow", [ "Label", { label:"f", location:0.25, id:"myLabel" } ]]
-                ]
-                //,
-                //overlays:[
-                //    "Arrow", [ "Label", { label:"foo", location:0.25, id:"myLabel" } ]
-                //],
-                //overlays:[
-                //    ["Custom", {
-                //        create: function(component) {
-                //            return $("<select id='myDropDown'><option value='foo'>foo</option><option value='bar'>bar</option></select>");
-                //        },
-                //        location:0.7,
-                //        id:"customOverlay"
-                //    }]
-                //]
-                //在官方的Hiding/Showing Overlays中，向我们展示了setVisible,showOverlay(id),hideOverlay(id)，removeOverlay(id)等方法
-                //当然，因为对象中有DOM元素，我们也可以使用其他方法来控制DOM元素。
             };
-
             var exampleEndpoint2 = {
                 endpoint:"Dot",
                 anchor:"BottomLeft",
@@ -216,49 +206,22 @@
             // you can bind for a maxConnections callback using a standard bind call, but you can also supply 'onMaxConnections' in an Endpoint definition - see exampleEndpoint3 above.
             e1.bind("maxConnections", maxConnectionsCallback);
 
-            e1.addOverlay([ "Arrow", { width:10, height:10, id:"arrow" }]);
-
             //firstInstance.draggable("state2");
 
-            var state1 = jsPlumb.addEndpoint("state1", exampleEndpoint1);
-            var state2 = jsPlumb.addEndpoint("state3", exampleEndpoint2);
-            var state11 = jsPlumb.addEndpoint("state1", {anchor:anchors}, exampleEndpoint2);
-            
+            jsPlumb.addEndpoint("state1", exampleEndpoint1);
+            jsPlumb.addEndpoint("state3", exampleEndpoint2);
+            jsPlumb.addEndpoint("state1", {anchor:anchors}, exampleEndpoint2);
+
+
+
             $('#state2').draggable({
                 drag: function(e, l) {
                     jsPlumb.repaintEverything();
                 }
             });
 
-        //     $('#state2').draggable({
-        // //       containment: "parent",
-        // //       start: function () {
-        // //         startMove();
-        // //       },
-        //       drag: function(event, ui) {
-        // //         MoveSelectDiv(event, ui, id);
-        //         jsPlumb.repaintEverything();
-        //       },
-        //       stop: function () {
-        //         jsPlumb.repaintEverything();
-        //       }
-        //     });
-
         });
-
-        jsPlumb.connect({
-            source: 'state1',
-            target: 'state2'
-        });
-
     </script>
-</head>
 
-<body>
-<div id="state1" class="item">item0</div>
-<div id="state2" class="item">item1</div>
-<div id="state3" class="item">item2</div>
 </body>
-
-
 </html>
